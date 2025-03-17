@@ -32,6 +32,8 @@
 |![](./screenshots/dark.png)|![](./screenshots/light.png)|
 |-|-|
 
+![](./screenshots/how_it_works.gif)
+
 
 ## Запуск
 ### Development
