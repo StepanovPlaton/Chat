@@ -8,11 +8,13 @@ import { Message } from "./message";
 
 export const MessagesList = () => {
   const { data: users, mutate: mutateUsers } = useSWR<IUser[]>("users");
-  const { data: messages, mutate: mutateMessages } = useSWR(
-    "messages",
-    MessageService.getTopOfHistory,
-    { revalidateOnFocus: false }
-  );
+  const {
+    data: messages,
+    mutate: mutateMessages,
+    isLoading: messagesLoading,
+  } = useSWR("messages", MessageService.getTopOfHistory, {
+    revalidateOnFocus: false,
+  });
   const { data: me } = useSWR<IUser>("me");
   const [websocket, updateWebSocket] = useState<WebSocket>();
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -20,8 +22,18 @@ export const MessagesList = () => {
   const getUserColor = (userUUID: IUser["uuid"]) =>
     users?.find((user) => user.uuid === userUUID)?.color;
 
+  const updateMessageHandler = (websocket?: WebSocket) => {
+    if (websocket)
+      websocket.onmessage = (event) => {
+        mutateMessages([...(messages ?? []), JSON.parse(event.data)], {
+          revalidate: false,
+        });
+      };
+  };
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    updateMessageHandler(websocket);
     const newUsers: IUser[] = [];
     messages?.forEach((message) => {
       if (
@@ -35,20 +47,18 @@ export const MessagesList = () => {
   }, [messages]);
 
   useEffect(() => {
-    if (!websocket && messages && process.env.NEXT_PUBLIC_WS_URL) {
+    if (!websocket && !messagesLoading && process.env.NEXT_PUBLIC_WS_URL) {
       const websocket = new WebSocket(process.env.NEXT_PUBLIC_WS_URL);
-      websocket.onmessage = (event) => {
-        mutateMessages([...(messages ?? []), JSON.parse(event.data)], {
-          revalidate: false,
-        });
-      };
-      websocket.onclose = function () {
-        setTimeout(() => updateWebSocket(undefined), 1000);
+      updateMessageHandler(websocket);
+      websocket.onclose = () => {
+        setTimeout(() => {
+          updateWebSocket(undefined);
+        }, 1000);
       };
       updateWebSocket(websocket);
     }
     return () => websocket?.close();
-  }, [websocket, messages]);
+  }, [websocket, messagesLoading]);
 
   return (
     <div className="max-w-full h-full overflow-auto flex flex-col gap-2">

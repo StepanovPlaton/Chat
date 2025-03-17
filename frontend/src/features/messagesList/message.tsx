@@ -20,7 +20,7 @@ export const Message = ({
           ? "borderBottomRightRadius"
           : "borderBottomLeftRadius"]: 0,
       }}
-      className={`max-w-20 p-2`}
+      className={`p-2`}
     >
       {message.text}
     </div>

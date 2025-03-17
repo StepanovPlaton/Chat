@@ -10,7 +10,7 @@ export class MessageService {
     private messageRepository: Repository<Message>,
   ) {}
 
-  getTopOfHistory = () =>
+  getTopOfHistory = (): Promise<Message[]> =>
     this.messageRepository
       .createQueryBuilder('message')
       .orderBy('message.id', 'DESC')

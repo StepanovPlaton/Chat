@@ -14,7 +14,6 @@ import MessageModule from '@/modules/message';
       load: [config, databaseConfig],
     }),
     TypeOrmModule.forRoot(databaseConfig()),
-
     MessageModule,
   ],
 })
