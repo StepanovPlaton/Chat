@@ -4,13 +4,14 @@ import { ConfigModule } from '@nestjs/config';
 
 import config from '@/configuration/configuration';
 import databaseConfig from '@/configuration/database';
-import MessageModule from '../message';
+
+import MessageModule from '@/modules/message';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [config],
+      load: [config, databaseConfig],
     }),
     TypeOrmModule.forRoot(databaseConfig()),
 

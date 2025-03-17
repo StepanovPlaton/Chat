@@ -4,20 +4,21 @@ const nextConfig = {
       {
         source: "/api/:path*",
         destination:
-          `${process.env.BACKEND_PROTOCOL}://` +
-          `${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}/:path*`,
+          `${process.env.BACKEND_API_PROTOCOL}://` +
+          `${process.env.BACKEND_API_DOMAIN}:${process.env.BACKEND_API_PORT}/:path*`,
       },
     ];
   },
   images: {
     remotePatterns: [
       {
-        protocol: process.env.BASE_PROTOCOL,
-        hostname: process.env.BASE_DOMAIN,
-        port: process.env.BASE_PORT,
+        protocol: process.env.NEXT_PUBLIC_BASE_PROTOCOL,
+        hostname: process.env.NEXT_PUBLIC_BASE_DOMAIN,
+        port: process.env.NEXT_PUBLIC_BASE_PORT,
       },
     ],
   },
+  devIndicators: false,
 };
 
 export default nextConfig;

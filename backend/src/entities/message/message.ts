@@ -6,6 +6,9 @@ export class Message {
   id: number;
 
   @Column()
+  text: string;
+
+  @Column()
   timeOfSend: string;
 
   @Column()

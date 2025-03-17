@@ -1,3 +1,4 @@
+import ChatWindow from "@/widgets/chat-window";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Root() {
-  return <></>;
+  return (
+    <main className="w-full h-full flex items-center justify-center p-8">
+      <ChatWindow />
+    </main>
+  );
 }

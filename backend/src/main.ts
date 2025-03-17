@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { WsAdapter } from '@nestjs/platform-ws';
 
-import AppModule from './modules/app';
+import AppModule from '@/modules/app';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe());
+  app.useWebSocketAdapter(new WsAdapter(app));
 
   const options = new DocumentBuilder()
     .setTitle('Chat')
