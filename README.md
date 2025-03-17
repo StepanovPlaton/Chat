@@ -1,10 +1,12 @@
 # Chat
-> Chat - это анонимный асинхронный мессенджер
+> **Chat** - это анонимный асинхронный мессенджер
+
+**Chat** написан *за 10 часов* как тестовое задание перед одним из моих собеседований. Я выполнял [это техническое задание](./Техническое%20задание.md)
 
 ## Стек
 - Frontend:
   - [TypeScript](https://www.typescriptlang.org)
-  - [React 19](https://react.dev)
+  - [React](https://react.dev) 19
   - [Next.js](https://nextjs.org) 15 (App Router)
   - [Tailwind CSS](https://tailwindcss.com/)
   - [Yup](https://github.com/jquense/yup)
